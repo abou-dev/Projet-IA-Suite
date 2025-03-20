@@ -1,0 +1,65 @@
+<!-- monapp/templates/monapp/home.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Homepage</title>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        p {
+            color: #555;
+            font-size: 18px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .button-container {
+            text-align: center;
+        }
+
+        .redirect-button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .redirect-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Model Homepage</h1>
+    <p>
+        Bienvenue sur la page d'accueil de notre modèle de prédiction. Ce modèle utilise des caractéristiques
+        extraites d'exécutables pour déterminer la légitimité des programmes.
+    </p>
+    <div class="button-container">
+        <a class="redirect-button" href="{% url 'predict' %}">Accéder à la Prédiction</a>
+    </div>
+</body>
+</html>
