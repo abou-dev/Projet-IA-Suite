@@ -21,7 +21,7 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-Les scripts Python et la vue Django utilisent des chemins relatifs base sur la structure du projet (pas de chemins absolus machine-specifiques).
+Les scripts Python et la vue Django utilisent des chemins relatifs basés sur la structure du projet (pas de chemins absolus machine-specifiques).
 
 ## Lancer un script ML
 ```bash
