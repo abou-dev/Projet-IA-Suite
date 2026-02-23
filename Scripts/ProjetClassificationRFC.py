@@ -3,9 +3,11 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 from sklearn.model_selection import train_test_split, GridSearchCV
 import time
+from pathlib import Path
 
 # Chargement du jeu de données
-dataset_path = 'C:\\Users\\aboup\\PycharmProjects\\Face-recognition\\DatasetmalwareExtrait.csv'
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+dataset_path = PROJECT_ROOT / 'Dataset' / 'DatasetmalwareExtrait.csv'
 dataset = pd.read_csv(dataset_path)
 X = dataset.drop('legitimate', axis=1)
 y = dataset['legitimate']

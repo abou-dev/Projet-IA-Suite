@@ -6,9 +6,11 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 import lightgbm as lgb
 import time
+from pathlib import Path
 
 # Chargement du jeu de données
-dataset_path = 'C:\\Users\\aboup\\PycharmProjects\\Face-recognition\\DatasetmalwareExtrait.csv'
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+dataset_path = PROJECT_ROOT / 'Dataset' / 'DatasetmalwareExtrait.csv'
 dataset = pd.read_csv(dataset_path)
 X = dataset.drop('legitimate', axis=1)
 y = dataset['legitimate']
@@ -56,7 +58,7 @@ print("Score F1:", f1_score(y_test, predictions_optimized))
 print("Matrice de confusion pour le modèle optimisé:\n", confusion_matrix(y_test, predictions_optimized))
 print("Temps d'entraînement pour l'optimisation LightGBM:", optimized_time, "secondes")
 
-model_filename = 'optimized_lightgbm_model.pkl'
+model_filename = PROJECT_ROOT / 'Models' / 'optimized_lightgbm_model.pkl'
 with open(model_filename, 'wb') as file:
     pickle.dump(optimized_lgbm, file)
 

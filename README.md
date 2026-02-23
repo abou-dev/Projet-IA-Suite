@@ -1,49 +1,55 @@
 
-# 🚀 Projet IA : Optimisation des Hyperparamètres & Déploiement Django
+# Projet IA: Optimisation des Hyperparametres et Deploiement Django
 
-## 📖 Description du Projet
-Ce projet réalisé par **Aboubakar SALY** et **Mama NDIAYE** s'articule autour de deux axes principaux :
+## Description
+Ce projet couvre:
+- Classification de logiciels malveillants avec plusieurs modeles ML.
+- Application web Django pour lancer la prediction depuis une interface.
 
-- **Classification des logiciels malveillants** : Optimisation d'hyperparamètres de modèles (Decision Tree, Random Forest, KNN, LightGBM) appliqués à la détection de malwares.
-- **Déploiement Web avec Django** : Application web Django permettant d'afficher les résultats des classifications.
+## Prerequis
+- Python 3.10+ (3.11 recommande)
+- `pip`
 
-## 📁 Structure du Projet
-```
-Projet_IA/
-├── Dataset/
-├── Django/
-├── Scripts/
-├── Models/
-├── Documentation/
-├── .gitignore
-└── README.md
-```
+## Installation rapide (portable)
+Depuis la racine du depot:
 
-## 🛠️ Installation
-
-### Classification (Machine Learning)
 ```bash
-python -m venv venv
-source venv/bin/activate
+python -m venv .venv
+source .venv/bin/activate  # Linux/macOS
+# .venv\Scripts\activate   # Windows PowerShell
+pip install --upgrade pip
 pip install -r requirements.txt
+```
+
+Les scripts Python et la vue Django utilisent des chemins relatifs basés sur la structure du projet (pas de chemins absolus machine-specifiques).
+
+## Lancer un script ML
+```bash
 python Scripts/ProjetClassificationDTC.py
 ```
 
-### Déploiement Web (Django)
+## Lancer Django
 ```bash
-cd Django/"Déploiement avec Django"
-python -m venv env
-source env/bin/activate
-pip install django
+cd "Django/Déploiement avec Django"
 python manage.py runserver
 ```
 
-## 📚 Documentation
-- Rapport et présentation disponibles dans `Documentation/`.
+## Variables d'environnement Django
+`djangoProjectIATest1/settings.py` lit:
+- `DJANGO_SECRET_KEY` (ou `SECRET_KEY`)
+- `DJANGO_DEBUG` (par defaut: `True`)
+- `DJANGO_ALLOWED_HOSTS` (ou `ALLOWED_HOSTS`, CSV)
 
-## 👥 Contributeurs
-- Aboubakar SALY
-- Mama NDIAYE
+Exemple Linux/macOS:
+```bash
+export DJANGO_SECRET_KEY="change-me-in-production"
+export DJANGO_DEBUG="False"
+export DJANGO_ALLOWED_HOSTS="127.0.0.1,localhost,example.com"
+```
 
-## 📝 Licence
-Tous droits réservés.
+Exemple Windows PowerShell:
+```powershell
+$env:DJANGO_SECRET_KEY="change-me-in-production"
+$env:DJANGO_DEBUG="False"
+$env:DJANGO_ALLOWED_HOSTS="127.0.0.1,localhost,example.com"
+```

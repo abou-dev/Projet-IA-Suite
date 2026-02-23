@@ -1,0 +1,6 @@
+django
+pandas
+scikit-learn
+lightgbm
+pefile
+numpy
