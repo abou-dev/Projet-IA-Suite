@@ -1,35 +1,56 @@
 from django.core.files.storage import default_storage
 from django.shortcuts import render
-from django.http import JsonResponse
 import pickle
 import pefile
-import os
-import pandas as pd
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+MODEL_PATH = PROJECT_ROOT / 'Models' / 'optimized_lightgbm_model.pkl'
+ALLOWED_EXTENSIONS = {'.exe', '.dll'}
+MAX_UPLOAD_SIZE = 20 * 1024 * 1024  # 20 MB
 
 def predict(request):
     if request.method == 'POST':
-        # Charger le modèle
-        with open('E:\\IA_Test_TP1\\optimized_lightgbm_model.pkl', 'rb') as model_file:
-            model = pickle.load(model_file)
+        file = request.FILES.get('executable_file')
+        if not file:
+            return render(request, 'monapp/predict.html', {'error_message': "Veuillez sélectionner un fichier."})
 
-        # Obtenir les données du formulaire
-        file = request.FILES['executable_file']
+        file_extension = Path(file.name).suffix.lower()
+        if file_extension not in ALLOWED_EXTENSIONS:
+            return render(
+                request,
+                'monapp/predict.html',
+                {'error_message': "Format invalide. Utilisez un fichier .exe ou .dll."},
+            )
+
+        if file.size > MAX_UPLOAD_SIZE:
+            return render(
+                request,
+                'monapp/predict.html',
+                {'error_message': "Fichier trop volumineux. Taille maximale: 20 MB."},
+            )
+
+        try:
+            with open(MODEL_PATH, 'rb') as model_file:
+                model = pickle.load(model_file)
+        except FileNotFoundError:
+            return render(
+                request,
+                'monapp/predict.html',
+                {'error_message': "Modèle introuvable. Vérifiez le dossier Models."},
+            )
+
         file_name = default_storage.save(file.name, file)
         file_path = default_storage.path(file_name)
 
-        # Ici, vous devez utiliser un outil pour extraire les caractéristiques de l'exécutable
-        # Pour l'exemple, je simule l'extraction de caractéristiques
         features = extract_features_from_executable(file_path)
 
-        # Faire la prédiction
         prediction = int(model.predict([features])[0])
-        # Retourner la prédiction en tant que réponse JSON
         if prediction == 0:
             prediction_text = "Programme Non Légitime"
         else:
             prediction_text = "Programme Légitime"
 
-            # Passer le résultat à la page result.html
         return render(request, 'monapp/result.html', {'prediction_text': prediction_text})
 
     return render(request, 'monapp/predict.html')
@@ -80,8 +101,8 @@ def extract_features_from_executable(file_path):
         # Retourner une liste de zéros si le fichier ne peut pas être analysé
         return [0] * 8  # Assurez-vous que cela correspond au nombre de caractéristiques attendues
 def result(request):
-    # Cette vue est actuellement vide, car nous passons simplement les données depuis la vue predict.
-    # Si tu veux effectuer des actions spécifiques ici, tu peux les ajouter.
-        return render(request, 'monapp/result.html')
+    return render(request, 'monapp/result.html')
+
+
 def home(request):
     return render(request, 'monapp/home.html')
